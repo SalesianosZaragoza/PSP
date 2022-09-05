@@ -1,58 +1,87 @@
-# -*- coding: utf-8 -*-
+# %%
 """
-A simple threading example. Create some threads by subclassing `threading.Thread`,
-keep track of them and wait for them to join.
+# Multithreading
+
+This is the idea behind parallel processing, or the ability to set up and run multiple tasks concurrently.
+
 """
 
-import random
-import threading
-import time
+# %%
+"""
+##  Threading 
 
 
-class SleepingThread(threading.Thread):
+#### I/O-intensive processes improved with multithreading:
+* webscraping
+* reading and writing to files
+* sharing data between programs
+* network communications
 
-    sleep_length = None
-    id = None
+"""
 
-    def __init__(self, sleep_length=None, id=None):
-        super().__init__()
-        self.sleep_length = sleep_length or random.randrange(1, 20)
-        self.id=str(id)
+# %%
+"""
+## Multithreading Example: Webscraping
 
-    def run(self):
-        print('starting thread ' + self.id)
-        time.sleep(self.sleep_length)
-        print('ending thread ' + self.id)
+Historically, the programming knowledge required to set up multithreading was beyond the scope of this course, as it involved a good understanding of Python's Global Interpreter Lock (the GIL prevents multiple threads from running the same Python code at once). Also, you had to set up special classes that behave like Producers to divvy up the work, Consumers (aka "workers") to perform the work, and a Queue to hold tasks and provide communcations. And that was just the beginning.
+
+Fortunately, we've already learned one of the most valuable tools we'll need – the `map()` function. When we apply it using two standard libraries, *multiprocessing* and *multiprocessing.dummy*, setting up parallel processes and threads becomes fairly straightforward.
+
+"""
+
+# %%
+"""
+Here's a classic multithreading example provided by [IBM](http://www.ibm.com/developerworks/aix/library/au-threadingpython/) and adapted by [Chris Kiehl](http://chriskiehl.com/article/parallelism-in-one-line/) where you divide the task of retrieving web pages across multiple threads:
 
 
-if __name__ == '__main__':
-    t1 = SleepingThread(id=1)
-    t2 = SleepingThread(id=2)
-    t3 = SleepingThread(id=3)
-    t4 = SleepingThread(id=4)
-    
-    t1.start()
-    t2.start()
-    t3.start()
-    t4.start()
+    import time 
+    import threading 
+    import Queue 
+    import urllib2 
 
-    print('Thread {} is {} alive '.format(t4.id, t4.is_alive()))
-    t4.join()
-    print('Thread {} Stopped'.format(t4.id))
+    class Consumer(threading.Thread): 
+      def __init__(self, queue): 
+        threading.Thread.__init__(self)
+        self._queue = queue 
 
-    t3.join(0.2)
-    print('Thread {} is {} alive '.format(t3.id, t3.is_alive()))
-    if(t3.is_alive()):
-        print('Thread {} Not Stopped yet '.format(t3.id))
-    else:
-        print('Thread {} Stopped'.format(t3.id))
-    
-    
+      def run(self):
+        while True: 
+          content = self._queue.get() 
+          if isinstance(content, str) and content == 'quit':
+            break
+          response = urllib2.urlopen(content)
+        print 'Thanks!'
 
-    print('Thread {} is {} alive '.format(t2.id, t2.is_alive()))
-    t2.join()
-    print('Thread {} Stopped'.format(t2.id))
 
-    print('Thread {} is {} alive '.format(t1.id, t1.is_alive()))
-    t1.join()
-    print('Thread {} Stopped'.format(t1.id))
+    def Producer():
+      urls = [
+        'http://www.python.org', 'http://www.yahoo.com'
+        'http://www.scala.org', 'http://www.google.com'
+        # etc.. 
+      ]
+      queue = Queue.Queue()
+      worker_threads = build_worker_pool(queue, 4)
+      start_time = time.time()
+
+      # Add the urls to process
+      for url in urls: 
+        queue.put(url)  
+      # Add the poison pill
+      for worker in worker_threads:
+        queue.put('quit')
+      for worker in worker_threads:
+        worker.join()
+
+      print 'Done! Time taken: {}'.format(time.time() - start_time)
+
+    def build_worker_pool(queue, size):
+      workers = []
+      for _ in range(size):
+        worker = Consumer(queue)
+        worker.start() 
+        workers.append(worker)
+      return workers
+
+    if __name__ == '__main__':
+      Producer()
+"""
