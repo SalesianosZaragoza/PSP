@@ -18,7 +18,7 @@ def rand_string(length, output):
     output.put(rand_str)
 
 # Setup a list of processes that we want to run
-processes = [mp.Process(target=rand_string, args=(5, output)) for x in range(4)]
+processes = [mp.Process(target=rand_string, args=(10, output)) for x in range(4)]
 
 # Run processes
 for p in processes:
