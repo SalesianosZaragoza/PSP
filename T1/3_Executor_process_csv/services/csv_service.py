@@ -1,6 +1,6 @@
 from typing import List
 
-from process_csv.income import Income
+from services.income import Income
 
 
 class CSVService:

@@ -14,7 +14,7 @@ class IncomeProcessorConcurrentService:
         for income in incomes:
             region_incomes[income.region].append(income.amount)
         
-        with ProcessPoolExecutor(max_workers=3)
+        with ProcessPoolExecutor(max_workers=3): 
             futures = [executor.submit(self._calculate_average, region=region, amounts=amounts) for region, amounts in region_incomes.items()]
             region_amount = {}
             for futures in futures:   
