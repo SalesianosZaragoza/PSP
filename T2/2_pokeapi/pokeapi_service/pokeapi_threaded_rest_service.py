@@ -2,10 +2,9 @@ from concurrent.futures import ThreadPoolExecutor
 from typing import List
 
 import requests
-from requests import RequestException
 
-from pokeapi.pokeapi_service.pokeapi_rest_service import PokeAPIRestService
-from pokeapi.pokemon import Pokemon
+from pokeapi_rest_service import PokeAPIRestService
+from pokemon import Pokemon
 
 
 class PokeAPIThreadRestService(PokeAPIRestService):
@@ -21,5 +20,5 @@ class PokeAPIThreadRestService(PokeAPIRestService):
         response.raise_for_status()
         pokemon_json = response.json()
         return Pokemon(id=pokemon_json['id'], name=pokemon_json['name'], height=pokemon_json['height'],
-                            weight=pokemon_json['weight']))
+                            weight=pokemon_json['weight'])
 

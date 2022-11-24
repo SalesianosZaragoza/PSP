@@ -26,7 +26,7 @@ class Producer(threading.Thread):
         while True:
             integer = random.randint(0, 256)
             self.queue.put(integer) 
-            print '%d put to queue by %s' % (integer, self.name)
+            print("%d put to queue by %s" % (integer, self.name))
             time.sleep(1)
 
 class Consumer(threading.Thread):
@@ -50,7 +50,7 @@ class Consumer(threading.Thread):
         """
         while True:
             integer = self.queue.get()
-            print '%d popped from list by %s' % (integer, self.name)
+            print("%d popped from list by %s" % (integer, self.name))
             self.queue.task_done()
 
 def main():

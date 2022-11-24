@@ -3,8 +3,15 @@ from abc import ABC
 from typing import List
 
 import requests
+import dataclasses
 
-from pokeapi.pokemon import Pokemon
+
+@dataclasses.dataclass
+class Pokemon:
+    id: int
+    name: str
+    height: int
+    weight: int
 
 
 class PokeAPIRestService(ABC):

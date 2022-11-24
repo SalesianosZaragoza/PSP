@@ -1,6 +1,10 @@
+# %%
 import time
-import urllib2
+import urllib
 import threading
+
+
+# %%
 
 class FetchUrls(threading.Thread):
     """
@@ -25,18 +29,21 @@ class FetchUrls(threading.Thread):
         """
         while self.urls:
             url = self.urls.pop()
-            req = urllib2.Request(url)
+            req = urllib.Request(url)
             try:
-                d = urllib2.urlopen(req)
-            except urllib2.URLError, e:
-                print 'URL %s failed: %s' % (url, e.reason)
+                d = urllib.urlopen(req)
+            except urllib.URLError as e:
+                print("URL %s failed: %s" % (url, e.reason))
             self.lock.acquire()
-            print 'lock acquired by %s' % self.name
+            print("lock acquired by %s" % self.name)
             self.output.write(d.read())
-            print 'write done by %s' % self.name
-            print 'lock released by %s' % self.name
+            print("write done by %s" % self.name)
+            print("lock released by %s" % self.name)
             self.lock.release()
-            print 'URL %s fetched by %s' % (url, self.name)
+            print("URL %s fetched by %s" % (url, self.name))
+
+
+# %%
 
 def main():
     # list 1 of urls to fetch
@@ -53,6 +60,12 @@ def main():
     t2.join()
     f.close()
 
+
+# %%
+
 if __name__ == '__main__':
     main()
  
+
+
+
