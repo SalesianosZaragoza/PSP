@@ -43,7 +43,7 @@ def main():
     urls1 = ['http://www.google.com', 'http://www.facebook.com']
     # list 2 of urls to fetch
     urls2 = ['http://www.yahoo.com', 'http://www.youtube.com']
-    lock = threading.Lock()
+    lock = threading.RLock()
     f = open('output.txt', 'w+')
     t1 = FetchUrls(urls1, f, lock)
     t2 = FetchUrls(urls2, f, lock)

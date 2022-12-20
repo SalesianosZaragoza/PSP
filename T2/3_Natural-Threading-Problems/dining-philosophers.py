@@ -35,22 +35,25 @@ class ChopStick(object):
 
     def take(self, user):         # used for synchronization
         with self.lock:
+            #lock.acquire()
             while self.taken == True:
                 self.lock.wait()
             self.user = user
             self.taken = True
             sys.stdout.write("p[%s] took c[%s]\n" % (user, self.number))
             self.lock.notifyAll()
+            #lock.release()
 
     def drop(self, user):         # used for synchronization
         with self.lock:
+            #lock.acquire()
             while self.taken == False:
                 self.lock.wait()
             self.user = -1
             self.taken = False
             sys.stdout.write("p[%s] dropped c[%s]\n" % (user, self.number))
             self.lock.notifyAll()
-
+            #lock.release()
 
 class Philosopher (threading.Thread):
 
