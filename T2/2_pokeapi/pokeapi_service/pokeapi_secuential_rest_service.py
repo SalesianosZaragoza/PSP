@@ -3,8 +3,8 @@ from typing import List
 import requests
 from requests import RequestException
 
-from pokeapi.pokeapi_service.pokeapi_rest_service import PokeAPIRestService
-from pokeapi.pokemon import Pokemon
+from pokeapi_rest_service import PokeAPIRestService
+from pokeapi_rest_service import Pokemon
 
 
 class PokeAPISecuentialRestService(PokeAPIRestService):

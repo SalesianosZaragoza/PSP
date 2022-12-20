@@ -1,7 +1,11 @@
+# %%
 import time
-import urllib2
+import urllib.request
 import threading
 import random
+
+
+# %%
 
 class Producer(threading.Thread):
     """
@@ -27,11 +31,14 @@ class Producer(threading.Thread):
         for i in range(10):
             integer = random.randint(0, 256)
             self.integers.append(integer) 
-            print '%d appended to list by %s' % (integer, self.name)
-            print 'event set by %s' % self.name
+            print ("%d appended to list by %s" % (integer, self.name))
+            print ("event set by %s" % self.name)
             self.event.set()
-            print 'event cleared by %s' % self.name
+            print ("event cleared by %s" % self.name)
             self.event.clear()
+
+
+# %%
 
 class Consumer(threading.Thread):
     """
@@ -56,7 +63,10 @@ class Consumer(threading.Thread):
         while True:
             self.event.wait()
             integer = self.integers.pop()
-            print '%d popped from list by %s' % (integer, self.name)
+            print ("%d popped from list by %s" % (integer, self.name))
+
+
+# %%
 
 def main():
     integers = []
@@ -68,6 +78,12 @@ def main():
     t1.join()
     t2.join()
 
+
+# %%
+
 if __name__ == '__main__':
     main()
- 
+
+
+
+

@@ -29,14 +29,14 @@ class FetchUrls(threading.Thread):
             try:
                 d = urllib2.urlopen(req)
             except urllib2.URLError, e:
-                print 'URL %s failed: %s' % (url, e.reason)
+                print("URL %s failed: %s" % (url, e.reason))
             self.lock.acquire()
-            print 'lock acquired by %s' % self.name
+            print ("lock acquired by %s" % self.name)
             self.output.write(d.read())
-            print 'write done by %s' % self.name
-            print 'lock released by %s' % self.name
+            print ("write done by %s" % self.name)
+            print ("lock released by %s" % self.name)
             self.lock.release()
-            print 'URL %s fetched by %s' % (url, self.name)
+            print ("URL %s fetched by %s" % (url, self.name))
 
 def main():
     # list 1 of urls to fetch
