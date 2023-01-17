@@ -1,0 +1,19 @@
+JOIN sala1
+SERVER MSG userXXX "te has unido a sala 1"
+
+FILE  "c"
+
+
+MSG "hola a todos"
+MSG SALA1 "hola a sala1"
+MSG SALA1 USER1 "hola al usuario1 en la sala 1"
+
+SERVER MSG "hola"
+
+MSG user1 "hola user 1"
+SERVER MSG user1 "hola user 1"
+
+
+LIST
+LIST SALA1
+SERVER MSG userXXX "los usuarios de la sala 1 son ....."
