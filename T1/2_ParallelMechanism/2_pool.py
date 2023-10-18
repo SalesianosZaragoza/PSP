@@ -7,19 +7,19 @@ def f(x):
 
 if __name__ == '__main__':
     pool = Pool(processes=os.cpu_count())              # start 4 worker processes
-
-    #print (pool.map(f, 20))
+    print(os.cpu_count())
+    print (pool.map(f, [20]))
     # print "[0, 1, 4,..., 81]"
     print (pool.map(f, range(10)))
-    print("--------------------------------")
+    print("-------------Unordered-------------------")
     # print same numbers in arbitrary order
     for i in pool.imap_unordered(f, range(10)):
         print(i)
-    print("--------------------------------")
+    print("------------Async timeout 1--------------------")
     # evaluate "f(20)" asynchronously
     res = pool.apply_async(f, (20,))      # runs in *only* one process
     print (res.get(timeout=1))              # prints "400"
-    print("--------------------------------")
+    print("-----------Async pid timeout 1---------------------")
     # evaluate "os.getpid()" asynchronously
     res = pool.apply_async(os.getpid, ()) # runs in *only* one process
     print (res.get(timeout=1))              # prints the PID of that process
