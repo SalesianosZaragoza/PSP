@@ -8,10 +8,10 @@ import os
 if __name__ == '__main__':
     # 1. Read CSV file
     csv_service = CSVService()
-    incomes = csv_service.read_csv(os.getcwd()+'/T1/3_Executor_process_csv/data.csv')
+    incomes = csv_service.read_csv(os.getcwd()+'/data.csv')
     # 2. Select income Processor
-    income_processor = IncomeProcessorService()
-    #income_processor = IncomeProcessorConcurrentService()
+    #income_processor = IncomeProcessorService()
+    income_processor = IncomeProcessorConcurrentService()
 
     # 3. Calculate average per region
     start_time = datetime.now()
