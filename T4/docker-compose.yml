@@ -1,0 +1,46 @@
+version: "2.1"
+services:
+  openssh-server:
+    image: lscr.io/linuxserver/openssh-server:latest
+    container_name: openssh-server
+    hostname: openssh-server #optional
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - SUDO_ACCESS=false #optional
+      - PASSWORD_ACCESS=true #optional
+      - USER_PASSWORD=password #optional
+      - USER_PASSWORD_FILE=/path/to/file #optional
+      - USER_NAME=linuxserver #optional
+    ports:
+      - 2222:2222
+    restart: unless-stopped
+  ftp-server:
+    image: fauria/vsftpd:latest
+    container_name: vsftpd
+    environment:
+      - FTP_USER=admin
+      - FTP_PASS=preguntaraalberto
+      - PASV_ADDRESS=127.0.0.1
+      - PASV_MIN_PORT=21100
+      - PASV_MAX_PORT=21110
+    ports:
+      - 20:20
+      - 21:21
+      - 21100-21110:21100-21110
+    volumes:
+      - /home/alberto/ftp:/home/vsftpd
+    restart: unless-stopped
+  greenmail:
+    image: greenmail/standalone:latest
+    container_name: greenmail
+    hostname: greenmail #optional
+    ports:
+      - 3025:3025
+      - 3110:3110
+      - 3143:3143
+      - 3465:3465
+      - 3993:3993
+      - 3995:3995
+      - 8080:8080
+    restart: unless-stopped
