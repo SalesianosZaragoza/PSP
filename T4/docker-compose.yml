@@ -7,14 +7,16 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - SUDO_ACCESS=false #optional
+      - SUDO_ACCESS=true #optional
       - PASSWORD_ACCESS=true #optional
-      - USER_PASSWORD=password #optional
-      - USER_PASSWORD_FILE=/path/to/file #optional
       - USER_NAME=linuxserver #optional
+      - USER_PASSWORD=password #optional
     ports:
       - 2222:2222
+    volumes:
+      - /home/${USER}/examenPSP/ssh:/home
     restart: unless-stopped
+    
   ftp-server:
     image: fauria/vsftpd:latest
     container_name: vsftpd
@@ -29,18 +31,13 @@ services:
       - 21:21
       - 21100-21110:21100-21110
     volumes:
-      - /home/alberto/ftp:/home/vsftpd
+      - /home/${USER}/examenPSP/ftp:/home/vsftpd
     restart: unless-stopped
-  greenmail:
-    image: greenmail/standalone:latest
-    container_name: greenmail
-    hostname: greenmail #optional
+
+  fake-smtp-server:
+    image: haravich/fake-smtp-server:latest
+    container_name: fake-smtp-server
     ports:
-      - 3025:3025
-      - 3110:3110
-      - 3143:3143
-      - 3465:3465
-      - 3993:3993
-      - 3995:3995
-      - 8080:8080
+      - 1025:1025
+      - 1080:1080
     restart: unless-stopped
